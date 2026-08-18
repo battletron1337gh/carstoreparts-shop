@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CarStore Parts — carstoreparts.nl
 
-## Getting Started
+Webshop voor auto-onderdelen en banden. Opgericht als zelfstandig project naast CarStore Cuijk.
 
-First, run the development server:
+## Status
+
+- **Tijdelijke hosting:** Vercel Hobby (gratis) — tot Hostinger Premium Shared Hosting is gekocht.
+- **Domein:** `carstoreparts.nl` (geregistreerd via Hostinger).
+- **Database/auth/storage:** Supabase.
+- **Betalingen:** Mollie (nog in te stellen).
+- **Verzending:** SendCloud (nog in te stellen).
+
+## Lokale ontwikkeling
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Genereert een static export in `dist/` (voor latere Hostinger-deploy).
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Nu: Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push naar GitHub (`origin/master`).
+2. Importeer de repo in Vercel.
+3. Voeg environment variables toe (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+4. Wijs `carstoreparts.nl` toe als custom domain.
 
-## Deploy on Vercel
+### Later: Hostinger
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Zodra Hostinger Premium Shared Hosting er is:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Voeg `carstoreparts.nl` toe aan het Hostinger pakket.
+2. Pas `scripts/deploy-hostinger.sh` aan met je SSH-gegevens.
+3. Draai `bash scripts/deploy-hostinger.sh`.
+
+## Projectstructuur
+
+```
+src/
+  app/              # Next.js App Router pagina's
+  components/ui/    # shadcn/ui componenten
+  lib/
+    supabase/       # Supabase clients
+```
+
+## Migratieplan Vercel → Hostinger
+
+- Frontend: static export (`output: 'export'`) werkt op beide platformen.
+- API routes voor Mollie/SendCloud: op Vercel serverless, op Hostinger PHP endpoints.
+- Supabase blijft hetzelfde; database hoeft niet te migreren.
