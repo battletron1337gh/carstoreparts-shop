@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { KentekenSearch } from "@/components/kenteken-search";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -24,19 +25,18 @@ export default function HomePage() {
               Auto-onderdelen & banden
             </h1>
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Zoek op bandenmaat, OEM-nummer, artikelnummer of categorie. Voor particulier en bedrijf.
+              Zoek op kenteken, bandenmaat, OEM-nummer, artikelnummer of categorie. Voor particulier en bedrijf.
             </p>
 
-            <div className="max-w-3xl mx-auto bg-white rounded-lg p-2 flex flex-col md:flex-row gap-2">
-              <input
-                type="text"
-                placeholder="Zoek op OEM, artikelnummer of bandenmaat..."
-                className="flex-1 px-4 py-3 text-gray-900 rounded-md outline-none"
-              />
-              <Button size="lg" className="px-8">
-                Zoeken
-              </Button>
+            <div className="max-w-xl mx-auto bg-white rounded-lg p-3">
+              <KentekenSearch />
             </div>
+
+            <p className="text-gray-400 text-sm mt-4">
+              Of blader door <Link href="/categorie/remmen" className="underline">remmen</Link>,{' '}
+              <Link href="/categorie/filters" className="underline">filters</Link>,{' '}
+              <Link href="/categorie/banden" className="underline">banden</Link> en meer.
+            </p>
           </div>
         </section>
 

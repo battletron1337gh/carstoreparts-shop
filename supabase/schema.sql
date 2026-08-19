@@ -228,3 +228,26 @@ CREATE TRIGGER update_categories_updated_at BEFORE UPDATE ON categories
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Product-car compatibility (kenteken-based matching)
+CREATE TABLE product_compatibilities (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  brand TEXT NOT NULL,
+  model TEXT NOT NULL,
+  type TEXT,
+  year_from INT,
+  year_to INT,
+  fuel_type TEXT,
+  engine_code TEXT,
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX idx_compatibilities_product ON product_compatibilities(product_id);
+CREATE INDEX idx_compatibilities_search ON product_compatibilities(brand, model, type);
+
+ALTER TABLE product_compatibilities ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "compatibilities_select_public" ON product_compatibilities FOR SELECT USING (true);
+CREATE POLICY "compatibilities_admin_all" ON product_compatibilities FOR ALL USING (is_admin());

@@ -37,10 +37,25 @@ export interface Product {
   is_active: boolean;
 }
 
+export interface ProductCompatibility {
+  id: string;
+  product_id: string;
+  brand: string;
+  model: string;
+  type: string | null;
+  year_from: number | null;
+  year_to: number | null;
+  fuel_type: string | null;
+  engine_code: string | null;
+  notes: string | null;
+  created_at: string;
+}
+
 export interface ProductWithDetails extends Product {
   oem_numbers: ProductOemNumber[];
   article_numbers: ProductArticleNumber[];
   tire_sizes: TireSize[];
+  compatibilities: ProductCompatibility[];
   category: Category | null;
 }
 
